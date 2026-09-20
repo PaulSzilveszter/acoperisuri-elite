@@ -1,0 +1,76 @@
+.toggle {
+    --knob: 1.75rem;
+    --pad: 3px;
+    --gap: 0.25rem;
+
+    position: relative;
+    bottom: 0;
+    right: 0;
+    margin:15px; 
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    width: max-content;
+    padding: var(--pad);
+    /* border: 3px solid currentColor; */
+    border:none;
+    border-radius: 999px;
+    background-color: var(--bg)
+;
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+    transition: border-color 375ms ease-in-out;
+}
+
+.knob {
+    position: absolute;
+    top: var(--pad);
+    left: var(--pad);
+    width: var(--knob);
+    height: var(--knob);
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.toggle[data-mounted="true"] .knob {
+    transition: translate 375ms ease-in-out;
+}
+
+.toggle[data-state="dark"] .knob {
+    translate: calc(var(--knob) + var(--gap)) 0;
+}
+
+.icon {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: var(--knob);
+    height: var(--knob);
+    font-size: 1.125rem;
+    line-height: 1;
+    color: var(--text);
+    
+}
+
+.toggle[data-state="light"] .icon[data-icon="light"],
+.toggle[data-state="dark"] .icon[data-icon="dark"] {
+    color: var(--accent);
+}
+
+.toggle:hover {
+    border-color: var(--accent);
+}
+
+.toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .toggle[data-mounted="true"] .knob,
+    .icon {
+        transition: none;
+    }
+}

@@ -1,0 +1,109 @@
+:root {
+    --orange: oklch(70.5% 0.213 47.604);
+    --orange-dark: oklch(62% 0.2 45);
+    --slate: oklch(20.8% 0.042 265.755);
+    --white: #fff;
+    --whatsapp: #25d366;
+
+    --nav-h: 4.5rem;
+    --gutter: clamp(1rem, 5vw, 4rem);
+    --section-y: clamp(3.5rem, 9vw, 7rem);
+    --radius: 14px;
+
+    color-scheme: light dark;
+
+    --bg: light-dark(var(--white), var(--slate));
+    --bg-soft: light-dark(oklch(97% 0.008 250), oklch(26% 0.035 265));
+    --text: light-dark(oklch(18% 0.02 265), var(--white));
+    --muted: color-mix(in oklab, var(--text) 62%, transparent);
+    --hairline: color-mix(in oklab, var(--text) 12%, transparent);
+    --accent: var(--orange);
+    --on-media: #fff;
+}
+
+[data-theme="light"] { color-scheme: light; }
+[data-theme="dark"]  { color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+html, body { margin: 0; padding: 0; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; margin: 0; }
+
+/* ---------- butoane globale ---------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 3.25rem;
+    padding-inline: 1.75rem;
+    border: none;
+    border-radius: 999px;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: translate 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.btn:hover { translate: 0 -2px; }
+
+.btn-primary {
+    background: var(--orange);
+    color: var(--white);
+}
+.btn-primary:hover {
+    background: var(--orange-dark);
+    box-shadow: 0 8px 24px color-mix(in oklab, var(--orange) 45%, transparent);
+}
+
+.btn-whatsapp {
+    background: var(--whatsapp);
+    color: #0b2e18;
+}
+.btn-whatsapp:hover {
+    box-shadow: 0 8px 24px color-mix(in oklab, var(--whatsapp) 45%, transparent);
+}
+
+.btn-ghost {
+    background: color-mix(in oklab, var(--on-media) 14%, transparent);
+    border: 1px solid color-mix(in oklab, var(--on-media) 45%, transparent);
+    color: var(--on-media);
+    backdrop-filter: blur(8px);
+}
+.btn-ghost:hover { background: color-mix(in oklab, var(--on-media) 24%, transparent); }
+
+.btn-sm { height: 2.75rem; padding-inline: 1.25rem; font-size: 0.95rem; }
+
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+}
+
+/* regula cerută: pe mobil butoanele sunt full width */
+@media (max-width: 640px) {
+    .btn-row { flex-direction: column; align-items: stretch; }
+    .btn-row .btn { width: 100%; }
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn:hover { translate: none; }
+}

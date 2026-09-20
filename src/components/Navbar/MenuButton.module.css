@@ -1,0 +1,79 @@
+.menuButton {
+    --line-h: 5px;
+    --stagger: 80ms;
+    --dur: 420ms;
+    --ease: cubic-bezier(0.2, 0.8, 0.3, 1);
+
+    container-type: size;
+    position: relative;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--w);
+    height: var(--line-h);
+    background-color: white;
+    border-radius: 999px;
+    translate:
+        calc(var(--x) - 50% + var(--dx, 0cqw))
+        calc(var(--y) - 50% + var(--dy, 0cqw));
+    rotate: var(--r, 0deg);
+    transition:
+        translate var(--dur) var(--ease),
+        rotate var(--dur) var(--ease);
+}
+
+/* ---- hamburger: shown when closed ---- */
+.line[data-part^="bar"] { --x: 50cqw; --w: 62cqw; }
+
+.line[data-part="bar-1"] { --i: 0; --y: 30cqw; }
+.line[data-part="bar-2"] { --i: 1; --y: 50cqw; }
+.line[data-part="bar-3"] { --i: 2; --y: 70cqw; }
+
+/* ---- house: shown when open ---- */
+.line[data-part="floor"]  { --i: 0; --x: 50cqw;   --y: 82cqw;   --w: 50cqw;   --r: 0deg; }
+.line[data-part="wall-l"] { --i: 1; --x: 25cqw;   --y: 62.5cqw; --w: 39cqw;   --r: 90deg; }
+.line[data-part="wall-r"] { --i: 2; --x: 75cqw;   --y: 62.5cqw; --w: 39cqw;   --r: 90deg; }
+.line[data-part="roof-l"] { --i: 3; --x: 32.5cqw; --y: 35.5cqw; --w: 49.5cqw; --r: -45deg; }
+.line[data-part="roof-r"] { --i: 4; --x: 67.5cqw; --y: 35.5cqw; --w: 49.5cqw; --r: 45deg; }
+
+/* ---- closed: bars in (top first), house out (roof first) ---- */
+.menuButton[data-open="false"] .line[data-part^="bar"] {
+    transition-delay: calc(var(--i) * var(--stagger));
+}
+
+.menuButton[data-open="false"] .line[data-part="floor"]  { --dy: 60cqw; }
+.menuButton[data-open="false"] .line[data-part="wall-l"] { --dx: -70cqw; }
+.menuButton[data-open="false"] .line[data-part="wall-r"] { --dx: 70cqw; }
+.menuButton[data-open="false"] .line[data-part="roof-l"] { --dx: -70cqw; --dy: -40cqw; --r: -90deg; }
+.menuButton[data-open="false"] .line[data-part="roof-r"] { --dx: 70cqw; --dy: -40cqw; --r: 90deg; }
+
+.menuButton[data-open="false"] .line:not([data-part^="bar"]) {
+    transition-delay: calc((4 - var(--i)) * var(--stagger));
+}
+
+/* ---- open: house in (floor first), bars out (bottom first) ---- */
+.menuButton[data-open="true"] .line[data-part^="bar"] {
+    --dx: 160cqw;
+    transition-delay: calc((2 - var(--i)) * var(--stagger));
+}
+
+.menuButton[data-open="true"] .line:not([data-part^="bar"]) {
+    transition-delay: calc(var(--i) * var(--stagger) + 120ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .line {
+        transition-duration: 1ms;
+        transition-delay: 0ms !important;
+    }
+}
