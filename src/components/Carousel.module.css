@@ -11,6 +11,13 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    touch-action: pan-y;
+    user-select: none;
+    cursor: grab;
+}
+
+.viewport:active {
+    cursor: grabbing;
 }
 
 .track {
@@ -19,14 +26,19 @@
     transition: translate 600ms cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+.track[data-dragging="true"] {
+    transition: none;
+}
+
 .image {
     flex: 0 0 100%;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    -webkit-user-drag: none;
 }
 
-/* gradient scrim so overlaid controls and text stay legible */
+/* gradient ca textul și butoanele să rămână lizibile peste poză */
 .viewport::after {
     content: "";
     position: absolute;
@@ -51,6 +63,7 @@
     place-items: center;
     width: 3rem;
     height: 3rem;
+    padding: 0;
     border: 1px solid color-mix(in oklab, var(--on-media) 35%, transparent);
     border-radius: 50%;
     background: color-mix(in oklab, var(--slate) 25%, transparent);
@@ -73,7 +86,7 @@
 
 .prev:hover,
 .next:hover {
-    background: color-mix(in oklab, var(--main-orange) 85%, transparent);
+    background: color-mix(in oklab, var(--orange) 85%, transparent);
     border-color: transparent;
 }
 
@@ -100,27 +113,36 @@
 
 .dot[data-active="true"] {
     width: 1.75rem;
-    background: var(--main-orange);
+    background: var(--orange);
 }
 
 .prev:focus-visible,
 .next:focus-visible,
 .dot:focus-visible {
-    outline: 2px solid var(--main-orange);
+    outline: 2px solid var(--orange);
     outline-offset: 3px;
 }
 
 @media (max-width: 640px) {
-    .prev, .next { opacity: 1; width: 2.5rem; height: 2.5rem; }
-    .prev { left: 0.75rem; }
-    .next { right: 0.75rem; }
+    .prev,
+    .next {
+        top: auto;
+        bottom: 1.25rem;
+        translate: none;
+        width: 2.75rem;
+        height: 2.75rem;
+        opacity: 1;
+    }
+
+    .prev { left: 1.25rem; }
+    .next { right: 1.25rem; }
+
+    .dots { bottom: 2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .track, .dot { transition: none; }
-}
-
-
-@media (max-height: 34rem) {
-    .prev, .next { top: auto; bottom: 4rem; translate: none; }
+    .track,
+    .dot {
+        transition: none;
+    }
 }
